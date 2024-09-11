@@ -166,7 +166,7 @@ def StartMenu():
       while done != True:
 
         Cheats = red
-        os.system('clear')
+        os.system('clear || cls')
         print(
           "░█████╗░██╗░░██╗███████╗░█████╗░████████╗░██████╗\n██╔══██╗██║░░██║██╔════╝██╔══██╗╚══██╔══╝██╔════╝\n██║░░╚═╝███████║█████╗░░███████║░░░██║░░░╚█████╗░\n██║░░██╗██╔══██║██╔══╝░░██╔══██║░░░██║░░░░╚═══██╗\n╚█████╔╝██║░░██║███████╗██║░░██║░░░██║░░░██████╔╝\n░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░"
         )
@@ -199,7 +199,7 @@ def StartMenu():
 
       startgame = True
       FloorManager()
-    os.system('clear')
+    os.system('cls||clear')
 
 
 def HC():
@@ -306,7 +306,7 @@ def Fight():
       isMimic = 1
       isBoss = 0
       isBoundGod = False
-      os.system('clear')
+      os.system('cls||clear')
 
       print(eColour + edisplay[3] + "\n\n" + white + enamedisplay +
             "\n\n Health = " + str(ehealth) + "/" + str(emaxhealth) +
@@ -319,7 +319,7 @@ def Fight():
 
       coins = coins + ecoins
       time.sleep(speedModifier + 0.5)
-    os.system('clear')
+    os.system('cls||clear')
 
 
 def pool():
@@ -372,9 +372,9 @@ def Chest():
       print("You found a " + green + "potion upgrade! " + white)
       potionSize = potionSize + 5
       time.sleep(speedModifier + 0.5)
-      os.system('clear')
+      os.system('cls||clear')
     elif isMimic == 2:
-      os.system('clear')
+      os.system('cls||clear')
 
       print("It was a mimic! ")
 
@@ -389,7 +389,7 @@ def Chest():
 
       Fight()
 
-  os.system('clear')
+  os.system('cls||clear')
 
 
 def altar():
@@ -420,7 +420,7 @@ def altar():
             "(+20 Max HP)" + white)
       pmaxhealth = pmaxhealth + 20
       time.sleep(speedModifier + 0.5)
-      os.system('clear')
+      os.system('cls||clear')
     else:
       ename = green + "The punisher" + white
       edisplay = bossDisplay
@@ -434,14 +434,14 @@ def altar():
       print("You were " + red + "healed to full" + white +
             " and you found a " + blue + "whetstone! (+20 ATK)" + white)
       time.sleep(13 * speedModifier)
-      os.system('clear')
+      os.system('cls||clear')
       phealth = pmaxhealth
       pdamage = pdamage + 20
       time.sleep(3 * speedModifier)
   else:
     print("You leave the altar alone... ")
     time.sleep(2 * speedModifier)
-    os.system('clear')
+    os.system('cls||clear')
     score = score - 1
 
 
@@ -452,7 +452,7 @@ def FloorManager():
   global Quit
 
   name = input("what is your name adventurer? ")
-  os.system('clear')
+  os.system('cls||clear')
 
   en = 0
   prevEn = 0
@@ -493,7 +493,7 @@ def FloorManager():
 def GameOver():
   time.sleep(2)
   print("You died! ")
-  os.system('clear')
+  os.system('cls||clear')
   print("You died! ")
 
   DisplayStats()
@@ -504,7 +504,7 @@ def GameOver():
   if x == "2":
     sys.exit("")
   else:
-    os.system('clear')
+    os.system('cls||clear')
     StartMenu()
 
 
@@ -543,7 +543,7 @@ def Shop():
     print("\n")
     DisplayStats()
     x = input()
-    os.system('clear')
+    os.system('cls||clear')
 
     if x == "1":
       cost = 100
