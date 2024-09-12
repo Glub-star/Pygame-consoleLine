@@ -46,57 +46,58 @@ title_display = "████████╗██╗░░██╗████
 
 
 class player:
-    def __init__(self):
-        self.name = ""
-        self.phealth = 0
-        self.pmaxhealth = 0
-        self.pdamage = 0
-        self.coins = 0
-        self.score = 0
-        self.potionSize = 0
-        self.cheats = False
+  def __init__(self):
+    self.name = ""
+    self.phealth = 0
+    self.pmaxhealth = 0
+    self.pdamage = 0
+    self.coins = 0
+    self.score = 0
+    self.potionSize = 0
+    self.cheats = False
         
 
 class MapManager:
-    def __init__(self):
-        self.location = 0
-        self.difficulty_colour = [green,yellow,red,magenta]
-        self.difficulty = ["easy","medium","hard","baby"]
-        self.difficulty_index = 0
+  def __init__(self):
+    self.location = 0
+    self.difficulty_colour = [green,yellow,red,magenta]
+    self.difficulty = ["easy","medium","hard","baby"]
+    self.difficulty_index = 0
         
         
-        self.speed_colour = [green,yellow,red,blue]
-        self.speed = ["fast","medium","slow","fast"]
-        self.speed_index = 3
+    self.speed_colour = [green,yellow,red,blue]
+    self.speed = ["fast","medium","slow","fast"]
+    self.speed_index = 3
         
-    def Start_Menu(self):
-        game_start = False
-        error = ""
-        while not game_start:
-            try:
-                os.system('cls||clear')
-                print(f"{self.difficulty_colour}{title_display}{white}")
-                ######################
-                x = int(input(f"{white}\n1.) Difficulty = {self.difficulty_colour}{self.difficulty}{white}\n2.) Game speed = {self.speed_colour}{self.speed}{white}\n3.) Start \n4.) Cheats \n{error} \n"))
-                match x:
-                    case 1:
-                        # game start
-                        pass
-                    case 2:
-                        self.difficulty_index +=1
-                        if self.difficulty_index >= 4:
-                            self.difficulty_index = 0
-                    case 3:
-                        self.speed_index +=1
-                        if self.speed_index >= 4:
-                            self.speed_index = 0
-                    case 4:
-                        # open cheats menu
-                        pass
-            except IndexError:
-                error = "Give a valid option"
-            except ValueError:
-                error = "Enter just the number"
+  def Start_Menu(self):
+      game_start = False
+      error = ""
+      while not game_start:
+        try:
+          os.system('cls||clear')
+          print(f"{self.difficulty_colour}{title_display}{white}")
+          ######################
+          x = int(input(f"{white}\n1.) Difficulty = {self.difficulty_colour[self.difficulty_index]}{self.difficulty[self.difficulty_index]}{white}\n2.) Game speed = {self.speed_colour[self.speed_index]}{self.speed[self.speed_index]}{white}\n3.) Start \n4.) Cheats \n{error} \n"))
+          match x:
+            case 1:
+              self.difficulty_index +=1
+              if self.difficulty_index >= 4:
+                self.difficulty_index = 0
+            case 2:
+                self.speed_index +=1
+                if self.speed_index >= 4:
+                    self.speed_index = 0
+            case 3:
+                # START Game
+                pass
+              
+            case 4:
+              # open cheats menu
+              pass
+        except IndexError:
+          error = "Give a valid option"
+        except ValueError:
+          error = "Enter just the number"
             
             
 
