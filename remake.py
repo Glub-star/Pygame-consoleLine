@@ -112,7 +112,7 @@ class Enemy:
     if self.health < self.max_health * 0.5:
         self.Expression = self.spirte_sheet[1]
     if self.enemy_move == 4:
-      self.Expression = self.display[2]
+      self.Expression = self.spirte_sheet[2]
     # endregion
     
     print(f"{self.name}\n\n {map.difficulty_colour[map.difficulty_index]}{self.Expression}\n{white}Health = {self.health} / {self.max_health}\n Damage = {self.damage}")
@@ -163,7 +163,7 @@ class MapManager:
                   self.speed_modifier = 0.5
             case 3:
                 # START Game
-                player = Player()
+                Fight() ###############################
               
             case 4:
               # open cheats menu
@@ -184,10 +184,10 @@ def Fight():
   time.sleep(map.speed_modifier)
   print(f"\n You killed the {enemy.name}!")
   time.sleep(map.speed_modifier)
-  print(f"The {enmey.name} dropped {yellow}{enemy.coins} coins! {white}")
+  print(f"The {enemy.name} dropped {yellow}{enemy.coins} coins! {white}")
 
   player.coins += enemy.coins
-  time.sleep(map.speedModifier + 0.5)
+  time.sleep(map.speed_modifier + 0.5)
   os.system('cls||clear')
   
 
