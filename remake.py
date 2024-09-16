@@ -49,17 +49,17 @@ slime_name_dsiplay = "█▀ █░░ █ █▀▄▀█ █▀▀\n�
 
 
 class Player:
-  def __init__(self):
-    self.name = ""
-    self.health = 0
-    self.max_health = 0
-    self.damage = 0
-    self.coins = 0
-    self.score = 0
-    self.potionSize = 0
+  def __init__(self, name= "player", health=100, damage=20, coins= 0, score=0,potion_size= 5):
+    self.name = name
+    self.health = health
+    self.max_health = health
+    self.damage = damage
+    self.coins = coins
+    self.score = score
+    self.potionSize = potion_size
     self.cheats = False
   
-  def health_check():
+  def health_check(self):
     if self.health <= 0:
       # Game over
       pass
@@ -67,7 +67,7 @@ class Player:
       self.health = self.max_health
 
   def player_turn(self,enemy):
-    print(f"{self.name} \n {self.health} ={red}{phealth}{white}/{red}{self.max_health}{white}")
+    print(f"{self.name} \n {self.health} ={red}{self.health}{white}/{red}{self.max_health}{white}")
     ncols = 25
     print(f"\033[F\033[{ncols}G What do you do?")
     print(f" Damage ={blue}{self.damage}{white}")
@@ -115,13 +115,13 @@ class Enemy:
       self.Expression = self.display[2]
     # endregion
     
-    print(f"{self.name}\n\n {map.difficulty_colour[difficulty_index]}{self.Expression}\n{white}Health = {self.health} / {self.max_health}\n Damage = {self.damage}")
+    print(f"{self.name}\n\n {map.difficulty_colour[map.difficulty_index]}{self.Expression}\n{white}Health = {self.health} / {self.max_health}\n Damage = {self.damage}")
     ##########################
     if self.enemy_move != 4:
-      print(f"\nThe {ename} Attcked! {red} (-{self.damage} HP)" + white)
+      print(f"\nThe {self.name} Attcked! {red} (-{self.damage} HP)" + white)
       player.health -= self.damage
       player.health_check()
-    elif emove == 4:
+    elif self.enemy_move == 4:
       print(f"\nThe {self.name} missed!")
     print("_________________________________________________\n")
       
@@ -181,17 +181,18 @@ def Fight():
     player.player_turn(enemy)
   
   print(f"{enemy.spirte_sheet[3]}\n\n{white}{enemy.name_display}\n\n Health = {enemy.health} / {enemy.max_health}\n Damage = {enemy.damage}")
-  time.sleep(map.speedModifier)
+  time.sleep(map.speed_modifier)
   print(f"\n You killed the {enemy.name}!")
-  time.sleep(map.speedModifier)
-  print(f"The {self.name} dropped {yellow}{enemy.coins} coins! {white}")
+  time.sleep(map.speed_modifier)
+  print(f"The {enmey.name} dropped {yellow}{enemy.coins} coins! {white}")
 
   player.coins += enemy.coins
-  time.sleep(speedModifier + 0.5)
+  time.sleep(map.speedModifier + 0.5)
   os.system('cls||clear')
   
 
 
 map = MapManager()
+player = Player()
 
 map.Start_Menu()
