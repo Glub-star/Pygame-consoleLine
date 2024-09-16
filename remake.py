@@ -43,19 +43,88 @@ boss_display = [
 title_display = "████████╗██╗░░██╗███████╗  ██████╗░██╗░░░██╗███╗░░██╗░██████╗░███████╗░█████╗░███╗░░██╗\n╚══██╔══╝██║░░██║██╔════╝  ██╔══██╗██║░░░██║████╗░██║██╔════╝░██╔════╝██╔══██╗████╗░██║\n░░░██║░░░███████║█████╗░░  ██║░░██║██║░░░██║██╔██╗██║██║░░██╗░█████╗░░██║░░██║██╔██╗██║\n░░░██║░░░██╔══██║██╔══╝░░  ██║░░██║██║░░░██║██║╚████║██║░░╚██╗██╔══╝░░██║░░██║██║╚████║\n░░░██║░░░██║░░██║███████╗  ██████╔╝╚██████╔╝██║░╚███║╚██████╔╝███████╗╚█████╔╝██║░╚███║\n░░░╚═╝░░░╚═╝░░╚═╝╚══════╝  ╚═════╝░░╚═════╝░╚═╝░░╚══╝░╚═════╝░╚══════╝░╚════╝░╚═╝░░╚══╝"
 #endregion
 
+#region name displays
+slime_name_dsiplay = "█▀ █░░ █ █▀▄▀█ █▀▀\n▄█ █▄▄ █ █░▀░█ ██▄"
+#endregion
 
 
-class player:
+class Player:
   def __init__(self):
     self.name = ""
-    self.phealth = 0
-    self.pmaxhealth = 0
-    self.pdamage = 0
+    self.health = 0
+    self.max_health = 0
+    self.damage = 0
     self.coins = 0
     self.score = 0
     self.potionSize = 0
     self.cheats = False
-        
+  
+  def health_check():
+    if self.health <= 0:
+      # Game over
+      pass
+    if self.health > self.max_health:
+      self.health = self.max_health
+
+  def player_turn(self,enemy):
+    print(f"{self.name} \n {self.health} ={red}{phealth}{white}/{red}{self.max_health}{white}")
+    ncols = 25
+    print(f"\033[F\033[{ncols}G What do you do?")
+    print(f" Damage ={blue}{self.damage}{white}")
+    ncols = 26
+    print(f"\033[F\033[{ncols}G 1.) Heal ")
+    print(f" Potion size = {green}{self.potionSize}{white}") ####################
+    print(f"\033[F\033[{ncols}G 2.) Attack ")
+    print(f" Coins = {yellow}{self.coins}{white} \n Score ={magenta}{self.score}{white}\n")
+    x = input()
+
+    match x:
+      case "1":
+        heal_chance = random.randint(1,4)
+        if heal_chance == 4:
+          print("You failed to heal! ")
+        else:
+          self.health += self.potionSize
+          print(f"You healed {yellow}{self.potion_size} HP{white}")
+        self.health_check()
+      case "2":
+        print(f"You attacked the {enemy.name}{green} (-{self.damage} HP{white}")
+        enemy.health -= self.damage
+    os.system('cls||clear')
+
+class Enemy:
+  def __init__(self, name = "Slime", health = 50, damage = 5,sprites = slime_display, name_display = slime_name_dsiplay):
+      self.name = name
+      self.health = health
+      self.max_health = health
+      self.damage = damage
+      self.coins = self.health
+      self.spirte_sheet = sprites
+      self.name_display = name_display
+
+  def enemy_turn(self,map,player):
+     
+    self.enemy_move = random.randint(1, 4)
+
+    # region enemy display manager
+    if self.enemy_move != 4:
+      self.Expression = self.spirte_sheet[0]
+    if self.health < self.max_health * 0.5:
+        self.Expression = self.spirte_sheet[1]
+    if self.enemy_move == 4:
+      self.Expression = self.display[2]
+    # endregion
+    
+    print(f"{self.name}\n\n {map.difficulty_colour[difficulty_index]}{self.Expression}\n{white}Health = {self.health} / {self.max_health}\n Damage = {self.damage}")
+    ##########################
+    if self.enemy_move != 4:
+      print(f"\nThe {ename} Attcked! {red} (-{self.damage} HP)" + white)
+      player.health -= self.damage
+      player.health_check()
+    elif emove == 4:
+      print(f"\nThe {self.name} missed!")
+    print("_________________________________________________\n")
+      
 
 class MapManager:
   def __init__(self):
@@ -68,6 +137,7 @@ class MapManager:
     self.speed_colour = [green,yellow,red,blue]
     self.speed = ["fast","medium","slow","fast"]
     self.speed_index = 3
+    self.speed_modifier = 0.5
         
   def Start_Menu(self):
       game_start = False
@@ -75,6 +145,7 @@ class MapManager:
       while not game_start:
         try:
           os.system('cls||clear')
+          print(error)
           print(f"{self.difficulty_colour}{title_display}{white}")
           ######################
           x = int(input(f"{white}\n1.) Difficulty = {self.difficulty_colour[self.difficulty_index]}{self.difficulty[self.difficulty_index]}{white}\n2.) Game speed = {self.speed_colour[self.speed_index]}{self.speed[self.speed_index]}{white}\n3.) Start \n4.) Cheats \n{error} \n"))
@@ -85,11 +156,14 @@ class MapManager:
                 self.difficulty_index = 0
             case 2:
                 self.speed_index +=1
+                self.speed_modifier += 0.5
                 if self.speed_index >= 4:
                     self.speed_index = 0
+                if self.speed_modifier >= 2.5:
+                  self.speed_modifier = 0.5
             case 3:
                 # START Game
-                pass
+                player = Player()
               
             case 4:
               # open cheats menu
@@ -98,8 +172,25 @@ class MapManager:
           error = "Give a valid option"
         except ValueError:
           error = "Enter just the number"
+
             
-            
+def Fight():
+  enemy = Enemy()
+  while enemy.health > 0:
+    enemy.enemy_turn(map,player)
+    player.player_turn(enemy)
+  
+  print(f"{enemy.spirte_sheet[3]}\n\n{white}{enemy.name_display}\n\n Health = {enemy.health} / {enemy.max_health}\n Damage = {enemy.damage}")
+  time.sleep(map.speedModifier)
+  print(f"\n You killed the {enemy.name}!")
+  time.sleep(map.speedModifier)
+  print(f"The {self.name} dropped {yellow}{enemy.coins} coins! {white}")
+
+  player.coins += enemy.coins
+  time.sleep(speedModifier + 0.5)
+  os.system('cls||clear')
+  
+
 
 map = MapManager()
 
