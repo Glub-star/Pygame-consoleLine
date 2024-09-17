@@ -63,7 +63,7 @@ class Player:
   
   def health_check(self):
     if self.health <= 0:
-      map.Game_Over()
+      map.Game_Over(player)
     if self.health > self.max_health:
       self.health = self.max_health
 
