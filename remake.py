@@ -67,10 +67,10 @@ class Player:
       self.health = self.max_health
 
   def player_turn(self,enemy):
-    print(f"{self.name} \n {self.health} ={red}{self.health}{white}/{red}{self.max_health}{white}")
+    print(f"{self.name} \n {self.name} = {red}{self.health}{white}/{red}{self.max_health}{white}")
     ncols = 25
     print(f"\033[F\033[{ncols}G What do you do?")
-    print(f" Damage ={blue}{self.damage}{white}")
+    print(f" Damage = {blue}{self.damage}{white}")
     ncols = 26
     print(f"\033[F\033[{ncols}G 1.) Heal ")
     print(f" Potion size = {green}{self.potionSize}{white}") ####################
@@ -115,7 +115,7 @@ class Enemy:
       self.Expression = self.spirte_sheet[2]
     # endregion
     
-    print(f"{self.name}\n\n {map.difficulty_colour[map.difficulty_index]}{self.Expression}\n{white}Health = {self.health} / {self.max_health}\n Damage = {self.damage}")
+    print(f"{self.name_display}\n\n {map.difficulty_colour[map.difficulty_index]}{self.Expression}\n{white}Health = {self.health} / {self.max_health}\nDamage = {self.damage}")
     ##########################
     if self.enemy_move != 4:
       print(f"\nThe {self.name} Attcked! {red} (-{self.damage} HP)" + white)
@@ -146,7 +146,7 @@ class MapManager:
         try:
           os.system('cls||clear')
           print(error)
-          print(f"{self.difficulty_colour}{title_display}{white}")
+          print(f"{self.difficulty_colour[self.difficulty_index]}{title_display}{white}")
           ######################
           x = int(input(f"{white}\n1.) Difficulty = {self.difficulty_colour[self.difficulty_index]}{self.difficulty[self.difficulty_index]}{white}\n2.) Game speed = {self.speed_colour[self.speed_index]}{self.speed[self.speed_index]}{white}\n3.) Start \n4.) Cheats \n{error} \n"))
           match x:
@@ -162,8 +162,7 @@ class MapManager:
                 if self.speed_modifier >= 2.5:
                   self.speed_modifier = 0.5
             case 3:
-                # START Game
-                Fight() ###############################
+                self.Start_Game()
               
             case 4:
               # open cheats menu
@@ -173,24 +172,34 @@ class MapManager:
         except ValueError:
           error = "Enter just the number"
 
-            
-def Fight():
-  enemy = Enemy()
-  while enemy.health > 0:
-    enemy.enemy_turn(map,player)
-    player.player_turn(enemy)
-  
-  print(f"{enemy.spirte_sheet[3]}\n\n{white}{enemy.name_display}\n\n Health = {enemy.health} / {enemy.max_health}\n Damage = {enemy.damage}")
-  time.sleep(map.speed_modifier)
-  print(f"\n You killed the {enemy.name}!")
-  time.sleep(map.speed_modifier)
-  print(f"The {enemy.name} dropped {yellow}{enemy.coins} coins! {white}")
+  def Get_New_Floor(self):
+    i = random.randint(1,1)
+    match i:
+      case 1:
+        self.Fight()
 
-  player.coins += enemy.coins
-  time.sleep(map.speed_modifier + 0.5)
-  os.system('cls||clear')
-  
+  def Fight(self):
+    os.system('cls||clear')
+    enemy = Enemy()
+    while enemy.health > 0:
+      os.system('cls||clear')
+      enemy.enemy_turn(self,player)
+      player.player_turn(enemy)
+    
+    print(f"{enemy.spirte_sheet[3]}\n\n{white}{enemy.name_display}\n\n Health = {enemy.health} / {enemy.max_health}\n Damage = {enemy.damage}")
+    time.sleep(self.speed_modifier)
+    print(f"\n You killed the {enemy.name}!")
+    time.sleep(self.speed_modifier)
+    print(f"The {enemy.name} dropped {yellow}{enemy.coins} coins! {white}")
 
+    player.coins += enemy.coins
+    time.sleep(self.speed_modifier + 0.5)
+    os.system('cls||clear')
+  
+  def Start_Game(self):
+    while True:
+     self.Get_New_Floor()
+     player.score += 1
 
 map = MapManager()
 player = Player()
