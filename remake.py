@@ -75,7 +75,7 @@ class Player:
     print(f"\033[F\033[{ncols}G 1.) Heal ")
     print(f" Potion size = {green}{self.potionSize}{white}") ####################
     print(f"\033[F\033[{ncols}G 2.) Attack ")
-    print(f" Coins = {yellow}{self.coins}{white} \n Score ={magenta}{self.score}{white}\n")
+    print(f" Coins = {yellow}{self.coins}{white} \n Score = {magenta}{self.score}{white}\n")
     x = input()
 
     match x:
@@ -115,7 +115,7 @@ class Enemy:
       self.Expression = self.spirte_sheet[2]
     # endregion
     
-    print(f"{self.name_display}\n\n {map.difficulty_colour[map.difficulty_index]}{self.Expression}\n{white}Health = {self.health} / {self.max_health}\nDamage = {self.damage}")
+    print(f"{self.name_display}\n\n {map.difficulty_colour[map.difficulty_index]}{self.Expression}\n{white}\nHealth = {self.health} / {self.max_health}\nDamage = {self.damage}")
     ##########################
     if self.enemy_move != 4:
       print(f"\nThe {self.name} Attcked! {red} (-{self.damage} HP)" + white)
