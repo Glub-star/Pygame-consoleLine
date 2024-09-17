@@ -51,7 +51,7 @@ punisher_name_display = "▀█▀ █░█ █▀▀   █▀█ █
 
 
 class Player:
-  def __init__(self, name= "player", health=100, damage=20, coins= 0, score=0,potion_size= 5):
+  def __init__(self, name= "player", health=100, damage=20, coins= 0, score=0,potion_size= 20):
     self.name = name
     self.health = health
     self.max_health = health
@@ -74,7 +74,7 @@ class Player:
     print(f" Damage = {blue}{self.damage}{white}")
     ncols = 26
     print(f"\033[F\033[{ncols}G 1.) Heal ")
-    print(f" Potion size = {green}{self.potionSize}{white}") ####################
+    print(f" Potion size = {green}{self.potionSize}{white}")
     print(f"\033[F\033[{ncols}G 2.) Attack ")
     print(f" Coins = {yellow}{self.coins}{white} \n Score = {magenta}{self.score}{white}\n")
     x = input()
@@ -86,14 +86,14 @@ class Player:
           print("You failed to heal! ")
         else:
           self.health += self.potionSize
-          print(f"You healed {yellow}{self.potion_size} HP{white}")
+          print(f"You healed {yellow}{self.potionSize} HP{white}")
         self.health_check()
       case "2":
         print(f"You attacked the {enemy.name}{green} (-{self.damage} HP{white}")
         enemy.health -= self.damage
     os.system('cls||clear')
 
-  def display_stats(self): ################ 
+  def display_stats(self):  
     print(f"{self.name}{white}\nHealth = {red}{self.health}{white}\{red}{self.max_health}{white}\nDamage = {blue}{self.damage}{white}\nPotion size = {green}{self.potionSize}{white}\nCoins = {yellow}{self.coins}{white}\nScore = {magenta}{self.score}{white}")
 class Enemy:
   def __init__(self, name = "Slime", health = 50, damage = 5,sprites = slime_display, name_display = slime_name_dsiplay, hit_chance = 0.75):
@@ -287,6 +287,8 @@ class MapManager:
         mimic_damage = player.damage * self.difficulty_modifier
         if mimic_damage < 30:
           mimic_damage = 30
+        elif mimic_damage > player.health *0.3:
+          mimic_damage = player.health * 0.3
         self.Fight(enemy=Enemy(name="mimic", health=60,damage=mimic_damage,sprites=mimic_display,name_display=mimic_name_display))
         time.sleep(self.speed_modifier + 0.5)
       else:
@@ -351,7 +353,6 @@ map.Start_Menu()
 
 '''
 remainng: 
-  Altar
   Harder_boss
   Coin tooss
   Cheats
@@ -361,5 +362,6 @@ enemy types :
 slime = No gimic
 mimic = copies player's damage (applying difficulty modifer too)
         minimum damage of 30
-Punisher = Very strong, higher chance of missing(0.75), copies player's health
+        maximum damage of 1/3 of player's health
+Punisher = Very strong, higher chance of missing(0.75), copies player's health + 20
 '''
