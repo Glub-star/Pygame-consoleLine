@@ -243,13 +243,15 @@ class MapManager:
   def Shop(self,player):
     poor = False
     while True:
+      os.system('cls||clear')
       if poor:
         print("You didnt have enough coins!")
         poor = False
       print("█▀ █░█ █▀█ █▀█\n▄█ █▀█ █▄█ █▀▀\n")
       print("You found a shop! ")
-      choice = input(f"You have {yellow}{player.coins} coins{white}\n1.) {red}Max Heal{yellow} (100 coins){white}\n2.) {blue} Whetstone{yellow} (250 coins){white}\n3.) {red}Max Health{yellow} (500 coins){white}\nx.)leave\n\n")
+      print(f"You have {yellow}{player.coins} coins{white}\n1.) {red}Max Heal{yellow} (100 coins){white}\n2.) {blue}Whetstone{yellow} (250 coins){white}\n3.) {red}Max Health{yellow} (500 coins){white}\nx.) leave\n\n")
       player.display_stats()
+      choice = input()
       match choice:
         case "1":
           if player.coins < 100:
