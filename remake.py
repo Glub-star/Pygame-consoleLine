@@ -92,6 +92,15 @@ class Player:
         enemy.health -= self.damage
     os.system('cls||clear')
 
+  def display_stats(self): ################ 
+    print(f"{self.name}{white}\nHealth = {red}{self.health}{white}\{red}{self.max_health}{white}\nDamage = {blue}{self.damage}{white}\nPotion size = {green}{self.potionSize}{white}\nCoins = {yellow}{self.coins}{white}\nScore = {magenta}{self.score}{white}")
+    '''
+    print(Cheats + name + white + "\n Health = " + red + str(phealth) + white +
+        "/" + red + str(pmaxhealth) + white + "\n Damage = " + blue +
+        str(pdamage) + white + "\n Potion size = " + green + str(potionSize) +
+        white + "\n Coins = " + yellow + str(coins) + white + "\n Score = " +
+        magenta + str(score) + white + "\n")
+    '''
 class Enemy:
   def __init__(self, name = "Slime", health = 50, damage = 5,sprites = slime_display, name_display = slime_name_dsiplay):
       self.name = name
@@ -172,12 +181,14 @@ class MapManager:
           error = "Enter just the number"
 
   def Get_New_Floor(self):
-    i = random.randint(1,2)
+    i = random.randint(1,3)
     match i:
       case 1:
         self.Fight()
       case 2:
         self.Pool(player)
+      case 3:
+        self.Shop(player)
 
   def Fight(self):
     os.system('cls||clear')
@@ -227,7 +238,7 @@ class MapManager:
             player.health_check()
       case 1:
         print("You leave it alone... ")
-        time.sleep(self.speed_modifier)
+    time.sleep(self.speed_modifier)
   
   def Shop(self,player):
     poor = False
@@ -237,7 +248,8 @@ class MapManager:
         poor = False
       print("█▀ █░█ █▀█ █▀█\n▄█ █▀█ █▄█ █▀▀\n")
       print("You found a shop! ")
-      choice = input(f"You have {yellow}{player.coins} coins{white}\n1.) {red}Max Heal{yellow} (100 coins){white}\n2.) {blue} Whetstone{yellow} (250 coins){white}\n3.) {red}Max Health{yellow} (500 coins){white}\nx.)leave\n")
+      choice = input(f"You have {yellow}{player.coins} coins{white}\n1.) {red}Max Heal{yellow} (100 coins){white}\n2.) {blue} Whetstone{yellow} (250 coins){white}\n3.) {red}Max Health{yellow} (500 coins){white}\nx.)leave\n\n")
+      player.display_stats()
       match choice:
         case "1":
           if player.coins < 100:
