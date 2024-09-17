@@ -173,10 +173,12 @@ class MapManager:
           error = "Enter just the number"
 
   def Get_New_Floor(self):
-    i = random.randint(1,1)
+    i = random.randint(1,2)
     match i:
       case 1:
         self.Fight()
+      case 2:
+        self.Pool(player)
 
   def Fight(self):
     os.system('cls||clear')
@@ -196,6 +198,39 @@ class MapManager:
     time.sleep(self.speed_modifier + 0.5)
     os.system('cls||clear')
   
+  def Pool(self,player):
+    os.system('cls||clear')
+    choice  = 0
+    print("█▀█ █▀█ █▀█ █░░\n█▀▀ █▄█ █▄█ █▄▄\n")
+    while True:
+      try:
+        choice = int(input("you see a glowing orb at the bottom of a lake?\nDo you swim to get it?\n1.) No\n2.) Yes\n"))
+        if choice > 2 or choice < 1:
+          raise IndexError
+        break
+      except ValueError:
+        print("Enter just the number ")
+      except IndexError:
+        print("Enter a valid number ")
+  
+    outcome = random.randint(1, 2)
+    match choice:
+      case 2:
+        match outcome:
+          case 1:
+            print(f"You found a {blue}whetstone (+20 ATK){white}")
+            player.damage += 20
+            time.sleep(self.speed_modifier)
+
+          case 2:
+            print(f"It was a{red} trap (-15 HP) {white}")
+            player.health -= 15
+            player.health_check()
+      case 1:
+        print("You leave it alone... ")
+        time.sleep(self.speed_modifier)
+  
+
   def Start_Game(self):
     while True:
      self.Get_New_Floor()
