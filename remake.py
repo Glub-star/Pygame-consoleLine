@@ -34,7 +34,7 @@ mimic_display = [
   " ██████████████  \n ██     ▄  ▄  ██ \n   ██  ▀▀  ▀▀  ██\n    ████████████ \n   █▓▓▓▓▓▓▓▓▓▓▓█ \n  █▓▓▓▓▓▓▓▓▓▓▓██ \n  ████████████▒█ \n  █▒▒▒▒▒▒▒▒██▒▒█ \n  █▒▒▒▒▒▒▒▒██▒█  \n  ████████████   ",
   "██████████████  \n██   ▄ ▄  ▄ ▄▀█ \n  ██ ▄▀▄  ▄▀▄ ██\n   ████████████ \n  █▓▓▓▓▓▓▓▓▓▓▓█ \n █▓▓▓▓▓▓▓▓▓▓▓██ \n ████████████▒█ \n █▒▒▒▒▒▒▒▒██▒▒█ \n █▒▒▒▒▒▒▒▒██▒█  \n ████████████   "
 ]
-boss_display = [
+punisher_display = [
   "▄              █\n█             ██\n██     ████████ \n ███████    ███ \n  ██          ██\n  █   ██  ██   █\n  ██          ██\n   ██        ██ \n    ██████████  \n        ██      \n      ██████    \n    ██   █  ██  \n   ██    █   ██ \n  ██     █    █ \n  █      █    █ ",
   " ▄              █\n █             ██\n ██     ████████ \n  ███████    ███ \n   ██ ▄     ▄  ██\n   █  ▀█▄ ▄█▀   █\n   ██          ██\n    ██        ██ \n     ██████████  \n         ██      \n       ██████    \n     ██   █  ██  \n    ██    █   ██ \n   ██     █    █ \n   █      █    █ ",
   "▄              █\n█             ██\n██     ████████ \n ███████    ███ \n  ██          ██\n  █   ▄█  █▄   █\n  ██  ▀█  █▀  ██\n   ██        ██ \n    ██████████  \n        ██      \n      ██████    \n    ██   █  ██  \n   ██    █   ██ \n  ██     █    █ \n  █      █    █ ",
@@ -46,6 +46,7 @@ title_display = "████████╗██╗░░██╗████
 #region name displays
 slime_name_dsiplay = "█▀ █░░ █ █▀▄▀█ █▀▀\n▄█ █▄▄ █ █░▀░█ ██▄"
 mimic_name_display = "█▀▄▀█ █ █▀▄▀█ █ █▀▀\n█░▀░█ █ █░▀░█ █ █▄▄"
+punisher_name_display = "▀█▀ █░█ █▀▀   █▀█ █░█ █▄░█ █ █▀ █░█ █▀▀ █▀█\n░█░ █▀█ ██▄   █▀▀ █▄█ █░▀█ █ ▄█ █▀█ ██▄ █▀▄"
 #endregion
 
 
@@ -202,7 +203,7 @@ class MapManager:
   def Fight(self, enemy = Enemy()):
     os.system('cls||clear')
     enemy.max_health = enemy.health * self.difficulty_modifier
-    enemy.health = enemy.health * self.difficulty_modifier
+    enemy.health = enemy.max_health
     while enemy.health > 0:
       os.system('cls||clear')
       enemy.enemy_turn(self,player)
@@ -287,7 +288,7 @@ class MapManager:
     if input("you see a strange chest ahead \n Do you open it?\n1.) No\n2.) Yes\n") == "2":
       if random.randint(0,1) == 1:
         print("It was a mimic! ")
-        mimic_damage = player.damage * self.difficulty_modifier:
+        mimic_damage = player.damage * self.difficulty_modifier
         if mimic_damage < 30:
           mimic_damage = 30
         self.Fight(enemy=Enemy(name="mimic", health=60,damage=mimic_damage,sprites=mimic_display,name_display=mimic_name_display))
@@ -298,9 +299,30 @@ class MapManager:
         time.sleep(self.speed_modifier + 0.5)
     
   def Altar(self, player):
+    print("▄▀█ █░░ ▀█▀ ▄▀█ █▀█\n█▀█ █▄▄ ░█░ █▀█ █▀▄\n")
+    match input(" You see an ominious altar...\n It glows with a powerfull energy \n\n  1.) Leave it alone \n  2.) Apparoch the altar "):
+      case "2":
+        match random.randint(0,1):
+          case 0:
+            print(f"\nThe altar glows and you feel stronger! {red}(+20 Max HP){white}")
+            player.max_health += 20
+            time.sleep(self.speed_modifier + 0.5)
+            os.system('cls||clear')
+          case 1:
+            self.Fight(enemy=Enemy(
+              name = "The punisher",
+              health = player.max_health + 20,
+              damage = 40,
+              hit_chance=0.25,
+              name_display=punisher_name_display
+              sprites=punisher_display))
+      case "1":
+        print("you leave it alone...")
+        time.sleep(2 * self.speed_modifier)
+        os.system('cls||clear')
+        score = score - 1
 
-      
-
+            
 
 
   def Start_Game(self):
@@ -325,5 +347,5 @@ enemy types :
 slime = No gimic
 mimic = copies player's damage (applying difficulty modifer too)
         minimum damage of 30
-Punisher = Very strong, higher chance of missing(0.75), drops goodie bag
+Punisher = Very strong, higher chance of missing(0.75), copies player's health
 '''
