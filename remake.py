@@ -103,7 +103,7 @@ class Player:
         magenta + str(score) + white + "\n")
     '''
 class Enemy:
-  def __init__(self, name = "Slime", health = 50, damage = 5,sprites = slime_display, name_display = slime_name_dsiplay):
+  def __init__(self, name = "Slime", health = 50, damage = 5,sprites = slime_display, name_display = slime_name_dsiplay, hit_chance = 0.75):
       self.name = name
       self.health = health
       self.max_health = health
@@ -111,27 +111,29 @@ class Enemy:
       self.coins = self.health
       self.spirte_sheet = sprites
       self.name_display = name_display
+      self.hit_chance = hit_chance
 
   def enemy_turn(self,map,player):
      
-    self.enemy_move = random.randint(1, 4)
+    self.enemy_move = random.random()
+    missed = random.random() < self.hit_chance
 
     # region enemy display manager
-    if self.enemy_move != 4:
+    if not missed:
       self.Expression = self.spirte_sheet[0]
     if self.health < self.max_health * 0.5:
         self.Expression = self.spirte_sheet[1]
-    if self.enemy_move == 4:
+    if missed:
       self.Expression = self.spirte_sheet[2]
     # endregion
     
     print(f"{self.name_display}\n\n {map.difficulty_colour[map.difficulty_index]}{self.Expression}\n{white}\nHealth = {self.health} / {self.max_health}\nDamage = {self.damage}")
     ##########################
-    if self.enemy_move != 4:
+    if missed:
       print(f"\nThe {self.name} Attcked! {red} (-{self.damage} HP)" + white)
       player.health -= self.damage
       player.health_check()
-    elif self.enemy_move == 4:
+    else:
       print(f"\nThe {self.name} missed!")
     print("_________________________________________________\n")
       
@@ -285,14 +287,18 @@ class MapManager:
     if input("you see a strange chest ahead \n Do you open it?\n1.) No\n2.) Yes\n") == "2":
       if random.randint(0,1) == 1:
         print("It was a mimic! ")
-        self.Fight(enemy=Enemy(name="mimic", health=60,damage=player.damage,sprites=mimic_display,name_display=mimic_name_display))
+        mimic_damage = player.damage * self.difficulty_modifier:
+        if mimic_damage < 30:
+          mimic_damage = 30
+        self.Fight(enemy=Enemy(name="mimic", health=60,damage=mimic_damage,sprites=mimic_display,name_display=mimic_name_display))
         time.sleep(self.speed_modifier + 0.5)
       else:
         print(f"You found a {green}potion upgrade{white}!")
         player.potionSize += 5
         time.sleep(self.speed_modifier + 0.5)
     
-    
+  def Altar(self, player):
+
       
 
 
@@ -306,3 +312,18 @@ map = MapManager()
 player = Player()
 
 map.Start_Menu()
+
+'''
+remainng: 
+  Altar
+  Harder_boss
+  Coin tooss
+  Cheats
+  Chickens?
+
+enemy types :
+slime = No gimic
+mimic = copies player's damage (applying difficulty modifer too)
+        minimum damage of 30
+Punisher = Very strong, higher chance of missing(0.75), drops goodie bag
+'''
