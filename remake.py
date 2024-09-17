@@ -63,8 +63,7 @@ class Player:
   
   def health_check(self):
     if self.health <= 0:
-      # Game over
-      pass
+      map.Game_Over()
     if self.health > self.max_health:
       self.health = self.max_health
 
@@ -189,7 +188,7 @@ class MapManager:
           error = "Enter just the number"
 
   def Get_New_Floor(self):
-    i = random.randint(1,4)
+    i = random.randint(1,5)
     match i:
       case 1:
         self.Fight()
@@ -199,6 +198,8 @@ class MapManager:
         self.Shop(player)
       case 4:
         self.Chest(player)
+      case 5:
+        self.Altar(player)
 
   def Fight(self, enemy = Enemy()):
     os.system('cls||clear')
@@ -299,6 +300,7 @@ class MapManager:
         time.sleep(self.speed_modifier + 0.5)
     
   def Altar(self, player):
+    os.system('cls||clear')
     print("▄▀█ █░░ ▀█▀ ▄▀█ █▀█\n█▀█ █▄▄ ░█░ █▀█ █▀▄\n")
     match input(" You see an ominious altar...\n It glows with a powerfull energy \n\n  1.) Leave it alone \n  2.) Apparoch the altar "):
       case "2":
@@ -314,7 +316,7 @@ class MapManager:
               health = player.max_health + 20,
               damage = 40,
               hit_chance=0.25,
-              name_display=punisher_name_display
+              name_display=punisher_name_display,
               sprites=punisher_display))
       case "1":
         print("you leave it alone...")
@@ -323,6 +325,20 @@ class MapManager:
         score = score - 1
 
             
+  def Game_Over(self,player):
+    time.sleep(2)
+    os.system('cls||clear')
+    print("You died! ")
+
+    player.display_stats()
+
+    print(f"_______________________________\nScore = {green}{player.score}{white} \n\n What now?\n1.) Play again\n2.) Quit")
+    x = input()
+    if x == "2":
+      sys.exit("")
+    else:
+      os.system('cls||clear')
+      self.StartMenu()
 
 
   def Start_Game(self):
