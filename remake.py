@@ -95,13 +95,6 @@ class Player:
 
   def display_stats(self): ################ 
     print(f"{self.name}{white}\nHealth = {red}{self.health}{white}\{red}{self.max_health}{white}\nDamage = {blue}{self.damage}{white}\nPotion size = {green}{self.potionSize}{white}\nCoins = {yellow}{self.coins}{white}\nScore = {magenta}{self.score}{white}")
-    '''
-    print(Cheats + name + white + "\n Health = " + red + str(phealth) + white +
-        "/" + red + str(pmaxhealth) + white + "\n Damage = " + blue +
-        str(pdamage) + white + "\n Potion size = " + green + str(potionSize) +
-        white + "\n Coins = " + yellow + str(coins) + white + "\n Score = " +
-        magenta + str(score) + white + "\n")
-    '''
 class Enemy:
   def __init__(self, name = "Slime", health = 50, damage = 5,sprites = slime_display, name_display = slime_name_dsiplay, hit_chance = 0.75):
       self.name = name
@@ -250,6 +243,7 @@ class MapManager:
             player.health_check()
       case 1:
         print("You leave it alone... ")
+        player.score -= 1
     time.sleep(self.speed_modifier)
   
   def Shop(self,player):
@@ -282,6 +276,7 @@ class MapManager:
             player.max_health += 20
         case "x":
           break
+    player.score -= 1
 
   def Chest(self,player):
     os.system('cls||clear')
@@ -298,6 +293,9 @@ class MapManager:
         print(f"You found a {green}potion upgrade{white}!")
         player.potionSize += 5
         time.sleep(self.speed_modifier + 0.5)
+    else:
+      print("You leave it alone... ")
+      player.score -= 1
     
   def Altar(self, player):
     os.system('cls||clear')
@@ -322,7 +320,7 @@ class MapManager:
         print("you leave it alone...")
         time.sleep(2 * self.speed_modifier)
         os.system('cls||clear')
-        score = score - 1
+        player.score -= 1
 
             
   def Game_Over(self,player):
@@ -338,7 +336,7 @@ class MapManager:
       sys.exit("")
     else:
       os.system('cls||clear')
-      self.StartMenu()
+      self.Start_Menu()
 
 
   def Start_Game(self):
