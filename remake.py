@@ -125,7 +125,6 @@ class Enemy:
       print(f"\nThe {self.name} missed!")
     print("_________________________________________________\n")
       
-
 class MapManager:
   def __init__(self):
     self.location = 0
@@ -230,6 +229,34 @@ class MapManager:
         print("You leave it alone... ")
         time.sleep(self.speed_modifier)
   
+  def Shop(self,player):
+    poor = False
+    while True:
+      if poor:
+        print("You didnt have enough coins!")
+        poor = False
+      print("█▀ █░█ █▀█ █▀█\n▄█ █▀█ █▄█ █▀▀\n")
+      print("You found a shop! ")
+      choice = input(f"You have {yellow}{player.coins} coins{white}\n1.) {red}Max Heal{yellow} (100 coins){white}\n2.) {blue} Whetstone{yellow} (250 coins){white}\n3.) {red}Max Health{yellow} (500 coins){white}\nx.)leave\n")
+      match choice:
+        case "1":
+          if player.coins < 100:
+            poor = True
+          else:
+            player.health = player.max_health
+        case "2":
+          if player.coins < 250:
+            poor = True
+          else:
+            player.damage += 20
+        case "3":
+          if player.coins < 500:
+            poor = True
+          else:
+            player.max_health += 20
+        case "x":
+          break
+
 
   def Start_Game(self):
     while True:
