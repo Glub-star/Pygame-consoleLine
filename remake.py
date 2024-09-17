@@ -45,6 +45,7 @@ title_display = "████████╗██╗░░██╗████
 
 #region name displays
 slime_name_dsiplay = "█▀ █░░ █ █▀▄▀█ █▀▀\n▄█ █▄▄ █ █░▀░█ ██▄"
+mimic_name_display = "█▀▄▀█ █ █▀▄▀█ █ █▀▀\n█░▀░█ █ █░▀░█ █ █▄▄"
 #endregion
 
 
@@ -137,9 +138,10 @@ class Enemy:
 class MapManager:
   def __init__(self):
     self.location = 0
-    self.difficulty_colour = [green,yellow,red,magenta]
-    self.difficulty = ["easy","medium","hard","baby"]
-    self.difficulty_index = 0
+    self.difficulty_colour = [magenta,green,yellow,red]
+    self.difficulty = ["baby","easy","medium","hard"]
+    self.difficulty_index = 1
+    self.difficulty_modifier = 1
         
         
     self.speed_colour = [green,yellow,red,blue]
@@ -160,8 +162,11 @@ class MapManager:
           match x:
             case 1:
               self.difficulty_index +=1
+              self.difficulty_modifier += 0.5
               if self.difficulty_index >= 4:
                 self.difficulty_index = 0
+              if self.difficulty_modifier > 2.5:
+                self.difficulty_modifier = 0.5
             case 2:
                 self.speed_index +=1
                 self.speed_modifier += 0.5
@@ -181,7 +186,7 @@ class MapManager:
           error = "Enter just the number"
 
   def Get_New_Floor(self):
-    i = random.randint(1,3)
+    i = random.randint(1,4)
     match i:
       case 1:
         self.Fight()
@@ -189,10 +194,13 @@ class MapManager:
         self.Pool(player)
       case 3:
         self.Shop(player)
+      case 4:
+        self.Chest(player)
 
-  def Fight(self):
+  def Fight(self, enemy = Enemy()):
     os.system('cls||clear')
-    enemy = Enemy()
+    enemy.max_health = enemy.health * self.difficulty_modifier
+    enemy.health = enemy.health * self.difficulty_modifier
     while enemy.health > 0:
       os.system('cls||clear')
       enemy.enemy_turn(self,player)
@@ -270,6 +278,23 @@ class MapManager:
             player.max_health += 20
         case "x":
           break
+
+  def Chest(self,player):
+    os.system('cls||clear')
+    print("█▀▀ █░█ █▀▀ █▀ ▀█▀\n█▄▄ █▀█ ██▄ ▄█ ░█░\n")
+    if input("you see a strange chest ahead \n Do you open it?\n1.) No\n2.) Yes\n") == "2":
+      if random.randint(0,1) == 1:
+        print("It was a mimic! ")
+        self.Fight(enemy=Enemy(name="mimic", health=60,damage=player.damage,sprites=mimic_display,name_display=mimic_name_display))
+        time.sleep(self.speed_modifier + 0.5)
+      else:
+        print(f"You found a {green}potion upgrade{white}!")
+        player.potionSize += 5
+        time.sleep(self.speed_modifier + 0.5)
+    
+    
+      
+
 
 
   def Start_Game(self):
