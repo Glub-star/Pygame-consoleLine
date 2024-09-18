@@ -51,7 +51,7 @@ punisher_name_display = "▀█▀ █░█ █▀▀   █▀█ █
 
 
 class Player:
-  def __init__(self, name= "player", health=100, damage=20, coins= 0, score=0,potion_size= 20):
+  def __init__(self, name= "player", health=100, damage=20, coins= 0, score=1,potion_size= 20):
     self.name = name
     self.health = health
     self.max_health = health
@@ -341,7 +341,7 @@ class MapManager:
       health = 1000 * self.difficulty_modifier * self.boss_modifier,
       damage = 40 * self.difficulty_modifier * self.boss_modifier,
       sprites = harder_boss_display,
-      name_display = "N/A"
+      name_display = "N/A",
       hit_chance = 0.5
 
     ))
