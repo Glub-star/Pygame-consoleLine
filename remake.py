@@ -371,6 +371,7 @@ class MapManager:
 
 
   def Start_Game(self):
+    player = Player()
     while True:
      self.Get_New_Floor()
      player.score += 1
