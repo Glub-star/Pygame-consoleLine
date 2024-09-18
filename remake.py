@@ -377,7 +377,7 @@ map.Start_Menu()
 '''
 remainng: 
   Harder_boss :
-    implementation
+    name display
   Coin tooss
   Cheats
   Chickens?
@@ -388,4 +388,9 @@ mimic = copies player's damage (applying difficulty modifer too)
         minimum damage of 30
         maximum damage of 1/3 of player's health
 Punisher = Very strong, higher chance of missing(0.75), copies player's health + 20
+Harder_Boss = Scales by 1.2x each time killed (stacking with difficulty modifier)
+              Heals player when defeated
+              Only appears ever 50 levels
+              Base of 1000 health
+              
 '''
