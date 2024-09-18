@@ -183,6 +183,11 @@ class MapManager:
           error = "Enter just the number"
 
   def Get_New_Floor(self):
+    if player.score % 50 == 0:
+      self.Harder_Boss()
+      print(f"From the bosses reamins you find a {red}Max Heal{white}")
+      time.sleep(2 * self.speed_modifier)
+      player.health = player.max_health
     i = random.randint(1,5)
     match i:
       case 1:
