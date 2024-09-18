@@ -184,6 +184,7 @@ class MapManager:
 
   def Get_New_Floor(self):
     previous_floor = 0
+    i = 0
     print(player.score % 50 ==0)
     if player.score % 50 == 0:
       self.Harder_Boss()
@@ -373,9 +374,9 @@ class MapManager:
   def Start_Game(self):
     player = Player()
     while True:
-     self.Get_New_Floor()
      player.score += 1
-
+     self.Get_New_Floor()
+     
 map = MapManager()
 player = Player()
 
