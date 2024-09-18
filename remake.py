@@ -371,7 +371,8 @@ map.Start_Menu()
 
 '''
 remainng: 
-  Harder_boss
+  Harder_boss :
+    implementation
   Coin tooss
   Cheats
   Chickens?
