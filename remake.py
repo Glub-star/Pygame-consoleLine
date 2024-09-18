@@ -137,6 +137,8 @@ class MapManager:
     self.difficulty = ["baby","easy","medium","hard"]
     self.difficulty_index = 1
     self.difficulty_modifier = 1
+
+    self.boss_modifier = 1
         
         
     self.speed_colour = [green,yellow,red,blue]
@@ -324,7 +326,23 @@ class MapManager:
         os.system('cls||clear')
         player.score -= 1
 
-            
+  def Harder_Boss(self):
+    os.system('cls||clear')
+    print("You hear terrible footsteps appraching from the shadows... ")
+    time.sleep(1)
+    print("The shadows mass together as one... ")
+    self.Fight(enemy=Enemy(
+      name = "Bound God",
+      health = 1000 * self.difficulty_modifier * self.boss_modifier,
+      damage = 40 * self.difficulty_modifier * self.boss_modifier,
+      sprites = harder_boss_display,
+      name_display = "N/A"
+      hit_chance = 0.5
+
+    ))
+
+    self.boss_modifier *= 1.2
+
   def Game_Over(self,player):
     time.sleep(2)
     os.system('cls||clear')
