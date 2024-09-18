@@ -183,11 +183,13 @@ class MapManager:
           error = "Enter just the number"
 
   def Get_New_Floor(self):
+    print(player.score % 50 ==0)
     if player.score % 50 == 0:
       self.Harder_Boss()
       print(f"From the bosses reamins you find a {red}Max Heal{white}")
       time.sleep(2 * self.speed_modifier)
       player.health = player.max_health
+
     i = random.randint(1,5)
     match i:
       case 1:
@@ -292,8 +294,8 @@ class MapManager:
       if random.randint(0,1) == 1:
         print("It was a mimic! ")
         mimic_damage = player.damage * self.difficulty_modifier
-        if mimic_damage < 30:
-          mimic_damage = 30
+        if mimic_damage < 15:
+          mimic_damage = 15
         elif mimic_damage > player.health *0.3:
           mimic_damage = player.health * 0.3
         self.Fight(enemy=Enemy(name="mimic", health=60,damage=mimic_damage,sprites=mimic_display,name_display=mimic_name_display))
@@ -385,7 +387,7 @@ remainng:
 enemy types :
 slime = No gimic
 mimic = copies player's damage (applying difficulty modifer too)
-        minimum damage of 30
+        minimum damage of 15
         maximum damage of 1/3 of player's health
 Punisher = Very strong, higher chance of missing(0.75), copies player's health + 20
 Harder_Boss = Scales by 1.2x each time killed (stacking with difficulty modifier)
