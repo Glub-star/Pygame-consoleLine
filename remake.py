@@ -186,7 +186,7 @@ class MapManager:
     previous_floor = 0
     i = 0
     print(player.score % 50 ==0)
-    if player.score % 50 == 0:
+    if player.score % 50 == 0 and player.score != 0:
       self.Harder_Boss()
       print(f"From the bosses reamins you find a {red}Max Heal{white}")
       time.sleep(2 * self.speed_modifier)
@@ -208,7 +208,9 @@ class MapManager:
       case 5:
         self.Altar(player)
 
-  def Fight(self, enemy = Enemy()):
+  def Fight(self, enemy = None):
+    if enemy == None:
+      enemy = Enemy()
     os.system('cls||clear')
     enemy.max_health = enemy.health * self.difficulty_modifier
     enemy.health = enemy.max_health
@@ -278,16 +280,19 @@ class MapManager:
             poor = True
           else:
             player.health = player.max_health
+            player.coins -= 100
         case "2":
           if player.coins < 250:
             poor = True
           else:
             player.damage += 20
+            player.coins -= 250
         case "3":
           if player.coins < 500:
             poor = True
           else:
             player.max_health += 20
+            player.coins -= 500
         case "x":
           break
     player.score -= 1
