@@ -183,6 +183,7 @@ class MapManager:
           error = "Enter just the number"
 
   def Get_New_Floor(self):
+    previous_floor = 0
     print(player.score % 50 ==0)
     if player.score % 50 == 0:
       self.Harder_Boss()
@@ -190,7 +191,10 @@ class MapManager:
       time.sleep(2 * self.speed_modifier)
       player.health = player.max_health
 
-    i = random.randint(1,5)
+    while previous_floor == i:
+      i = random.randint(1,5)
+    previous_floor = i
+
     match i:
       case 1:
         self.Fight()
