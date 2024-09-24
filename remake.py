@@ -49,7 +49,6 @@ mimic_name_display = "█▀▄▀█ █ █▀▄▀█ █ █▀▀\
 punisher_name_display = "▀█▀ █░█ █▀▀   █▀█ █░█ █▄░█ █ █▀ █░█ █▀▀ █▀█\n░█░ █▀█ ██▄   █▀▀ █▄█ █░▀█ █ ▄█ █▀█ ██▄ █▀▄"
 #endregion
 
-
 class Player:
   def __init__(self, name= "player", health=100, damage=20, coins= 0, score=1,potion_size= 20):
     self.name = name
@@ -95,6 +94,7 @@ class Player:
 
   def display_stats(self):  
     print(f"{self.name}{white}\nHealth = {red}{self.health}{white}\{red}{self.max_health}{white}\nDamage = {blue}{self.damage}{white}\nPotion size = {green}{self.potionSize}{white}\nCoins = {yellow}{self.coins}{white}\nScore = {magenta}{self.score}{white}")
+
 class Enemy:
   def __init__(self, name = "Slime", health = 50, damage = 5,sprites = slime_display, name_display = slime_name_dsiplay, hit_chance = 0.75):
       self.name = name
@@ -145,6 +145,8 @@ class MapManager:
     self.speed = ["fast","medium","slow","fast"]
     self.speed_index = 3
     self.speed_modifier = 0.5
+
+    self.player = ""
         
   def Start_Menu(self):
       game_start = False
@@ -175,7 +177,10 @@ class MapManager:
                 self.Start_Game()
               
             case 4:
-              # open cheats menu
+              self.Cheats_Menu()
+              
+            case 5:
+              # open saves menu
               pass
         except IndexError:
           error = "Give a valid option"
@@ -375,25 +380,78 @@ class MapManager:
       os.system('cls||clear')
       self.Start_Menu()
 
+  def Start_Game(self, _player = Player()):
+    global player
+    player = _player
 
-  def Start_Game(self):
-    player = Player()
     while True:
      player.score += 1
      self.Get_New_Floor()
      
+  def Saves_Menu():
+    print()
+
+  def Cheats_Menu(self):
+    os.system('cls||clear')
+    global player
+    
+    name = ""
+    health = 0
+    damage = 0
+    coins = 0
+    score = 0
+    potion_size = 0
+
+    change_value = 0
+    display = f"Name :{name}\nHealth : {health}\nDamage : {damage}\nCoins : {coins}\nScore : {score}\nPotion Size : {potion_size}\n leave (x)"
+
+    choice = ""
+
+    while choice != "x":
+      os.system('cls||clear')
+      choice = input(f"Name :{name}\nHealth : {health}\nDamage : {damage}\nCoins : {coins}\nScore : {score}\nPotion Size : {potion_size}\n leave (x)")
+      if choice ==  "1":
+        name = input("What do you want to change the name to? ")
+      elif choice == "x":
+        pass
+      else:
+        while True:
+          try:
+            change_value = int(input("What would you like to change the value to? "))#
+            break
+          except ValueError:
+            print("Invalid input! ")
+      match choice:
+        case "2":
+          health = change_value
+        case "3":
+          damage = change_value
+        case "4":
+          coins = change_value
+        case "5":
+          score = change_value
+        case "6":
+          potion_size = change_value
+    
+    self.Start_Game(_player=Player(name,health,damage,coins,score,potion_size))
+    
+
 map = MapManager()
-player = Player()
 
 map.Start_Menu()
+
+player = Player()
+
+saves_file_name = "saves.txt"
 
 '''
 remainng: 
   Harder_boss :
     name display
-  Coin tooss
-  Cheats
+  Coin toss
+  Cheats ################
   Chickens?
+  Previews of other runs
 
 enemy types :
 slime = No gimic
